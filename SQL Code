@@ -1,0 +1,28 @@
+1️⃣ Retrieve all customers who signed up in 2023
+SELECT * FROM Customers  
+WHERE signup_date >= '2023-01-01';
+
+2️⃣ Get a list of all orders, including the product names and customer names
+SELECT o.order_id, c.first_name, c.last_name, p.product_name, o.order_date, o.quantity  
+FROM Orders o  
+JOIN Customers c ON o.customer_id = c.customer_id  
+JOIN Products p ON o.product_id = p.product_id;  
+
+3️⃣ Find the total revenue generated
+SELECT SUM(p.price * o.quantity) AS total_revenue  
+FROM Orders o  
+JOIN Products p ON o.product_id = p.product_id;  
+
+4️⃣ Count the number of orders per customer
+SELECT c.first_name, c.last_name, COUNT(o.order_id) AS total_orders  
+FROM Customers c  
+LEFT JOIN Orders o ON c.customer_id = o.customer_id  
+GROUP BY c.customer_id;
+
+5️⃣ Find the best-selling product
+SELECT p.product_name, SUM(o.quantity) AS total_sold  
+FROM Orders o  
+JOIN Products p ON o.product_id = p.product_id  
+GROUP BY p.product_id  
+ORDER BY total_sold DESC  
+LIMIT 1;
